@@ -1,0 +1,7 @@
+services:
+  portal:
+    image: joseluisq/static-web-server:2
+    volumes:
+      - ./services/portal:/public:ro
+    ports:
+      - 10000:80
