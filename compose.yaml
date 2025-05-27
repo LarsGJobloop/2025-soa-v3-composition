@@ -1,7 +1,20 @@
 services:
+  ingress:
+    image: traefik:v3.4
+    # Enables the web UI and tells Traefik to listen to docker
+    command: --api.insecure=true --providers.docker
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+
   portal:
     image: joseluisq/static-web-server:2
     volumes:
       - ./services/portal:/public:ro
-    ports:
-      - 10000:80
+    labels:
+      - "traefik.http.routers.portal.rule=Host(`localhost`)"
