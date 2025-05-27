@@ -27,5 +27,20 @@ services:
       - "traefik.http.routers.api.rule=Host(`api.localhost`)"
       - "traefik.http.services.api.loadbalancer.server.port=8080"
 
-#database:
-#database-ui: # Debug Web UI
+  database:
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker compose
+    shm_size: 128mb
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: example
+
+  database-ui:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
+
+volumes:
+  db:
