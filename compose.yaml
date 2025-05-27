@@ -18,3 +18,14 @@ services:
       - ./services/portal:/public:ro
     labels:
       - "traefik.http.routers.portal.rule=Host(`localhost`)"
+
+  api:
+    build:
+      context: ./services/api
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.http.routers.api.rule=Host(`api.localhost`)"
+      - "traefik.http.services.api.loadbalancer.server.port=8080"
+
+#database:
+#database-ui: # Debug Web UI
